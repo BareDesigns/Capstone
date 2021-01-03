@@ -23,8 +23,7 @@ def extract_color_stats(image):
 
 
 # grab all image paths in the input dataset directory
-dataset = "Dataset2"
-
+dataset = "Dataset"
 imagePaths = paths.list_images(dataset)
 data = []
 labels = []
@@ -59,12 +58,13 @@ predictions = knn.predict(testX)
 print("REPORT FOR KNN")
 print(classification_report(testY, predictions, target_names=le.classes_))
 
-rf.fit(trainX, trainY)
-predictions = rf.predict(testX)
-print("REPORT FOR RF")
-print(classification_report(testY, predictions, target_names=le.classes_))
+# rf.fit(trainX, trainY)
+# predictions = rf.predict(testX)
+# print("REPORT FOR RF")
+# print(classification_report(testY, predictions, target_names=le.classes_))
 
 
-# # Save the trained model
-saved_model_knn = pickle.dumps(knn)
-saved_model_rf = pickle.dumps(rf)
+# # # Save the trained model
+pickle.dump(knn, open("AA", "wb"))
+# saved_model_knn = pickle.dumps(knn)
+# saved_model_rf = pickle.dumps(rf)
