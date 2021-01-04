@@ -65,6 +65,7 @@ print(classification_report(testY, predictions, target_names=le.classes_))
 
 
 # # # Save the trained model
-pickle.dump(knn, open("AA", "wb"))
+filename = "knn_model.sav"
+pickle.dump(knn, open(filename, "wb"))
 # saved_model_knn = pickle.dumps(knn)
 # saved_model_rf = pickle.dumps(rf)
