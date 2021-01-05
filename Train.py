@@ -28,6 +28,11 @@ imagePaths = paths.list_images(dataset)
 data = []
 labels = []
 
+# test data setup
+# testset = "Test"
+# testImagePaths = paths.list_images(testset)
+# testData = []
+# testLabels = []
 
 # loop over our input images
 for imagePath in imagePaths:
@@ -41,6 +46,13 @@ for imagePath in imagePaths:
     label = imagePath.split(os.path.sep)[-2]
     labels.append(label)
 
+# for test in testImagePaths:
+#     image = Image.open(test)
+#     features = extract_color_stats(image)
+#     testData.append(features)
+#     testLabel = test.split(os.path.sep)[-2]
+#     testLabels.append(testLabel)
+
 # encode the labels, converting them from strings to integers
 le = LabelEncoder()
 labels = le.fit_transform(labels)
@@ -48,24 +60,36 @@ labels = le.fit_transform(labels)
 # training and 25% for evaluation
 (trainX, testX, trainY, testY) = train_test_split(data, labels, test_size=0.25)
 
+# Encode the test labels
+# testLabels = le.fit_transform(testLabels)
+# (Xtrain, Xtest, Ytrain, Ytest) = train_test_split(testData, testLabels, test_size=0.25)
+
 # train the model
-knn = KNN(n_neighbors=1)
+knn = KNN(n_neighbors=3)
 rf = RFC(n_estimators=100)
 
 # Show the accuracy of the models
-knn.fit(trainX, trainY)
-predictions = knn.predict(testX)
-print("REPORT FOR KNN")
-print(classification_report(testY, predictions, target_names=le.classes_))
+# knn.fit(trainX, trainY)
+# predictions = knn.predict(testX)
+# print("REPORT FOR KNN")
+# print(classification_report(testY, predictions, target_names=le.classes_))
 
+filename = "knn_model.sav"
+loaded_model = pickle.load(open(filename, "wb"))
+predict = loaded_model.predict(testX)
+print(classification_report(testY, predict, target_names=le.classes_))
 # rf.fit(trainX, trainY)
 # predictions = rf.predict(testX)
 # print("REPORT FOR RF")
 # print(classification_report(testY, predictions, target_names=le.classes_))
 
 
-# # # Save the trained model
-filename = "knn_model.sav"
-pickle.dump(knn, open(filename, "wb"))
+# Save the trained model
+# pickle.dump(knn, open(filename, "wb"))
 # saved_model_knn = pickle.dumps(knn)
 # saved_model_rf = pickle.dumps(rf)
+
+# loaded_model = pickle.load(open(filename, "rb"))
+# result = loaded_model.predict(Xtest)
+# print(classification_report(Ytest, result, target_names=le.classes_))
+# print(result)
